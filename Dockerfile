@@ -1,4 +1,4 @@
-FROM casjaysdev/alpine:latest as build
+FROM alpine:3.14 AS build
 
 WORKDIR /tmp/build
 
@@ -13,14 +13,14 @@ RUN apk -U upgrade && \
   openssl \
   openssl-dev \
   linux-headers \
-  python3 \
+  python2 \
   rrdtool
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
   libtoolize --force && \
   ./autogen.sh --prefix=/usr/local/share/cherokee && \
-  ./configure --prefix=/usr/local/share/cherokee && \
-  make && make install && \
+  ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee && \
+  make LDFLAGS="-all-static" && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
   apk del \
   alpine-sdk \
