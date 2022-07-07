@@ -13,7 +13,7 @@ RUN apk -U upgrade && \
   openssl \
   openssl-dev \
   linux-headers \
-  python \
+  python3 \
   rrdtool
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
