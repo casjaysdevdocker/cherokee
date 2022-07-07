@@ -13,7 +13,7 @@ RUN apk -U upgrade && \
   openssl \
   openssl-dev \
   linux-headers \
-  python2 \
+  python \
   rrdtool
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
@@ -32,7 +32,7 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   openssl
 
 FROM casjaysdev/php:latest
-ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')" 
+ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')"
 
 LABEL \
   org.label-schema.name="cherokee" \
@@ -46,7 +46,7 @@ LABEL \
   org.label-schema.vcs-type="Git" \
   org.label-schema.schema-version="1.0" \
   org.label-schema.vendor="CasjaysDev" \
-  maintainer="CasjaysDev <docker-admin@casjaysdev.com>" 
+  maintainer="CasjaysDev <docker-admin@casjaysdev.com>"
 
 COPY --from=build /usr/local/share/cherokee/. /usr/local/share/cherokee/
 COPY ./config/. /config/
