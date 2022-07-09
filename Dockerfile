@@ -31,18 +31,18 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   libtool \
   openssl
 
-FROM casjaysdev/php:latest
+FROM casjaysdevdocker/php:latest
 ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')"
 
 LABEL \
   org.label-schema.name="cherokee" \
   description="Alpine based image with cherokee and php8." \
-  org.label-schema.url="https://github.com/casjaysdev/cherokee" \
-  org.label-schema.vcs-url="https://github.com/casjaysdev/cherokee" \
+  org.label-schema.url="https://hub.docker.com/r/casjaysdevdocker/cherokee" \
+  org.label-schema.vcs-url="https://github.com/casjaysdevdocker/cherokee" \
   org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.version=$BUILD_DATE \
   org.label-schema.vcs-ref=$BUILD_DATE \
-  org.label-schema.license="MIT" \
+  org.label-schema.license="WTFPL" \
   org.label-schema.vcs-type="Git" \
   org.label-schema.schema-version="1.0" \
   org.label-schema.vendor="CasjaysDev" \
