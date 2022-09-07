@@ -14,7 +14,8 @@ RUN apk -U upgrade && \
   openssl-dev \
   linux-headers \
   python2 \
-  rrdtool
+  rrdtool \
+  php8-cgi
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
   libtoolize --force && \
@@ -62,5 +63,7 @@ EXPOSE 80 19070
 
 VOLUME [ "/data", "/config", "/etc/ssl" ]
 
+ENTRYPOINT [ "tini", "--" ]
 HEALTHCHECK CMD [ "/usr/local/bin/entrypoint-cherokee.sh" "healthcheck" ]
 CMD ["/usr/local/bin/entrypoint-cherokee.sh"]
+
