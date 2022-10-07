@@ -64,6 +64,6 @@ EXPOSE 80 19070
 VOLUME [ "/data", "/config", "/etc/ssl" ]
 
 ENTRYPOINT [ "tini", "--" ]
-HEALTHCHECK CMD [ "/usr/local/bin/entrypoint-cherokee.sh" "healthcheck" ]
+HEALTHCHECK --interval=15s --timeout=3s CMD [ "/usr/local/bin/entrypoint-cherokee.sh" "healthcheck" ]
 CMD ["/usr/local/bin/entrypoint-cherokee.sh"]
 
