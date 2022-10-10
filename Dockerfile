@@ -1,4 +1,4 @@
-FROM alpine:3.14 AS build
+FROM casjaysdevdocker/python2:latest AS build
 
 WORKDIR /tmp/build
 
@@ -50,18 +50,17 @@ LABEL \
   maintainer="CasjaysDev <docker-admin@casjaysdev.com>"
 
 COPY --from=build /usr/local/share/cherokee/. /usr/local/share/cherokee/
-COPY ./config/. /config/
-COPY ./data/. /data/
 COPY ./bin/. /usr/local/bin/
-
+COPY ./data/. /usr/local/share/template-files/data/
+COPY ./config/. /usr/local/share/template-files/config/
 
 ENV PHP_SERVER=cherokee
 
 WORKDIR /data/htdocs
 
-EXPOSE 80 19070
+EXPOSE 19070 19071
 
-VOLUME [ "/data", "/config", "/etc/ssl" ]
+VOLUME [ "/data", "/config" ]
 
 ENTRYPOINT [ "tini", "--" ]
 HEALTHCHECK --interval=15s --timeout=3s CMD [ "/usr/local/bin/entrypoint-cherokee.sh" "healthcheck" ]

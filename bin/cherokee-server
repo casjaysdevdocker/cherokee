@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+export PATH="/usr/local/share/cherokee/bin:$PATH"
+[ -f "/config/ssl.env" ] && . "/config/ssl.env"
+
+if [ ! -d "/config/cherokee" ] && [ -d "/usr/local/share/template-files/config/cherokee" ]; then
+  mkdir -p "/config/cherokee"
+  cp -Rf "/usr/local/share/template-files/config/cherokee/." "/config/cherokee/"
+fi
+
+[ -d "/data/htdocs" ] || mkdir -p "/data/htdocs"
+[ -d "/data/htdocs/www" ] || cp -Rf "/usr/local/share/template-files/data/." "/data/"
+[ -d "/usr/lib/cgi-bin" ] && [ -d "" ] && cp -Rf "/usr/lib/cgi-bin/." "/data/htdocs/cgi-bin/"
+[ -f "/config/cherokee/cherokee.conf" ] && cp -Rfv "/config/cherokee/cherokee.conf" "/etc/cherokee/"
+[ -d "/usr/local/share/cherokee/icons" ] && [ ! -d "/config/cherokee/icons" ] && cp -Rf "/usr/local/share/cherokee/icons/." "/config/cherokee/icons/"
+[ -d "/usr/local/share/cherokee/themes" ] && [ ! -d "/config/cherokee/themes" ] && cp -Rf "/usr/local/share/cherokee/themes/." "/config/cherokee/themes/"
+
+if [ ! -f "/config/ssl/key.pem" ] || [ ! -f "/etc/ssl/crt.pem" ]; then
+  openssl req \
+    -new \
+    -newkey rsa:4096 \
+    -days 3650 \
+    -nodes \
+    -x509 \
+    -subj "/C=US/ST=CA/L=Manhattan\ Beach/O=Managed\ Kaos/OU=Cherokee\ SSL/CN=localhost" \
+    -keyout /etc/ssl/server.pem \
+    -out /etc/ssl/server.pem
+fi
+
+if [ ! -f "/tmp/cherokee.pid" ]; then
+  cherokee-admin -b -p 19070 -c /config/cherokee.conf &
+  exec cherokee -c /etc/cherokee/cherokee.conf
+fi
+
