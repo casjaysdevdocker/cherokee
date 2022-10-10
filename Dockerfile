@@ -13,7 +13,6 @@ RUN apk -U upgrade && \
   openssl \
   openssl-dev \
   linux-headers \
-  python2 \
   rrdtool \
   php8-cgi
 
@@ -23,14 +22,14 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee && \
   make LDFLAGS="-all-static" && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
-  apk del \
+  apk del --no-cache \
   alpine-sdk \
   autoconf \
   automake \
   gettext \
   git \
-  libtool \
-  openssl
+  libtool && \
+  rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/*
 
 FROM casjaysdevdocker/php:latest
 ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')"
