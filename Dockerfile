@@ -19,7 +19,6 @@ RUN apk -U upgrade && \
   rrdtool \
   ffmpeg-dev \
   geoip-dev \
-  mariadb-dev  \
   php8-cgi
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
@@ -37,8 +36,6 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   linux-headers \
   ffmpeg-dev \
   geoip-dev \
-  mariadb-dev \
-  musl-dev \
   libtool && \
   mkdir -p /buildroot && \
   cp -Rf "/usr/local/." "/buildroot/" && \
