@@ -15,19 +15,22 @@ RUN apk -U upgrade && \
   gettext \
   git \
   libtool \
-  openssl \
-  openssl-dev \
+  openssl3 \
+  openssl3-dev \
   linux-headers \
   rrdtool \
   ffmpeg-dev \
   geoip-dev \
   php8-cgi
 
-RUN cd /tmp/build && \
+RUN mkdir -p "/usr/local/share/template-files/config/cherokee/defaults" "/buildroot" && \
+  cd /tmp/build && \
   git clone https://github.com/cherokee/webserver.git . && \
   /usr/bin/libtoolize && \
   aclocal && autoheader && touch ./ChangeLog ./README && autoconf && \
-  ./autogen.sh --prefix=/usr/local/share/cherokee --sysconfdir=/usr/local/share/cherokee/etc --localstatedir=/usr/local/share/cherokee/var --enable-static-module=all && \
+  ./autogen.sh --prefix=/usr/local/share/cherokee --sysconfdir=/usr/local/share/cherokee/etc \
+    --localstatedir=/usr/local/share/cherokee/var --enable-static-module=all --enable-static \
+    --enable-shared=no && \
   autoreconf -iv && \
   make && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
@@ -44,11 +47,14 @@ RUN cd /tmp/build && \
   openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/key.pem -out /etc/ssl/crt.pem && \
   ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
   ln -sf /usr/local/share/cherokee/sbin/* /usr/local/bin/ && \
-  mkdir -p /buildroot && \
+  cp -Rf "/usr/local/share/cherokee/etc/." "/usr/local/share/template-files/config/cherokee/defaults/"
   cp -Rf "/usr/local/." "/buildroot/" && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /tmp/build /usr/src/*
 
 FROM casjaysdevdocker/php:latest AS source
+
+RUN apk add --no-cache geoip rrdtool openssl3 && \
+  rm -Rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 COPY --from=build /buildroot/. /usr/local/
 COPY ./bin/. /usr/local/bin/
