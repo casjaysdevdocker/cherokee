@@ -12,6 +12,7 @@ if [ ! -d "/config/cherokee" ] && [ -d "/usr/local/share/template-files/config/c
   cp -Rf "/usr/local/share/template-files/config/cherokee/." "/config/cherokee/"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+[ -d "/data/cherokee/graphs" ] || mkdir -p "/data/cherokee/graphs"
 [ -d "/config/cherokee" ] && cp -Rf "/config/cherokee/." "/etc/cherokee/" || cp -Rf "/usr/local/share/template-files/config/defaults/cherokee/" "/etc/cherokee/"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "/data/htdocs" ] || mkdir -p "/data/htdocs"
