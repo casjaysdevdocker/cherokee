@@ -18,6 +18,7 @@ RUN apk -U upgrade && \
   rrdtool \
   ffmpeg-dev \
   geoip-dev \
+  mariadb-dev  \
   php8-cgi
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
@@ -35,11 +36,15 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   linux-headers \
   ffmpeg-dev \
   geoip-dev \
+  mariadb-dev \
   libtool && \
+  mkdir -p /buildroot && \
+  cp -Rf "/usr/local/" "/buildroot/"
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/*
 
 FROM casjaysdevdocker/php:latest AS source
-COPY --from=build /usr/local/. /usr/local/
+
+COPY --from=build /buildroot/. /usr/local/
 COPY ./bin/. /usr/local/bin/
 COPY ./data/. /usr/local/share/template-files/data/
 COPY ./config/. /usr/local/share/template-files/config/
