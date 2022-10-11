@@ -22,11 +22,11 @@ RUN apk -U upgrade && \
   php8-cgi
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
-  #libtoolize --force && \
-  #./autogen.sh --prefix=/usr/local/share/cherokee && \
-  #./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee --enable-static-module=all && \
-  #make LDFLAGS="-all-static" && make install && \
-  #echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
+  libtoolize --force && \
+  ./autogen.sh --prefix=/usr/local/share/cherokee && \
+  ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee --enable-static-module=all && \
+  make LDFLAGS="-all-static" && make install && \
+  echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
   apk del --no-cache \
   alpine-sdk \
   autoconf \
