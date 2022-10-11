@@ -43,7 +43,7 @@ RUN cd /tmp/build && \
   libtool && \
   openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/key.pem -out /etc/ssl/crt.pem && \
   ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
-  ln -sf /usr/local/share/cherokee/sbin/* /usr/local/sbin/ && \
+  ln -sf /usr/local/share/cherokee/sbin/* /usr/local/bin/ && \
   mkdir -p /buildroot && \
   cp -Rf "/usr/local/." "/buildroot/" && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /tmp/build /usr/src/*
