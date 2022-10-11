@@ -21,11 +21,12 @@ RUN apk -U upgrade && \
   geoip-dev \
   php8-cgi
 
-RUN git clone https://github.com/cherokee/webserver.git . && \
+RUN cd /tmp/build && \
+  git clone https://github.com/cherokee/webserver.git . && \
   libtoolize --force && \
-  ./autogen.sh --prefix=/usr/local/share/cherokee && \
-  ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee --enable-static-module=all && \
-  make LDFLAGS="-all-static" && make install && \
+  ./autogen.sh --with-python2=/usr/bin/python2 --prefix=/usr/local/share/cherokee && \
+  ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee --enable-static-module=all --with-wwwroot=/data/htdocs/www && \
+  make && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
   apk del --no-cache \
   alpine-sdk \
@@ -37,9 +38,10 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   ffmpeg-dev \
   geoip-dev \
   libtool && \
+  ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
   mkdir -p /buildroot && \
   cp -Rf "/usr/local/." "/buildroot/" && \
-  rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/*
+  rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /tmp/build /usr/src/*
 
 FROM casjaysdevdocker/php:latest AS source
 
