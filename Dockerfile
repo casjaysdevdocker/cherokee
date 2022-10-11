@@ -23,14 +23,12 @@ RUN apk -U upgrade && \
   geoip-dev \
   php8-cgi
 
-RUN mkdir -p "/usr/local/share/template-files/config/cherokee/defaults" "/buildroot" && \
+RUN mkdir -p "/usr/local/share/template-files/config/defaults/cherokee" "/buildroot" && \
   cd /tmp/build && \
   git clone https://github.com/cherokee/webserver.git . && \
   /usr/bin/libtoolize && \
   aclocal && autoheader && touch ./ChangeLog ./README && autoconf && \
-  ./autogen.sh --prefix=/usr/local/share/cherokee --sysconfdir=/usr/local/share/cherokee/etc \
-    --localstatedir=/usr/local/share/cherokee/var --enable-static-module=all --enable-static \
-    --enable-shared=no && \
+  ./autogen.sh --prefix=/usr/local/share/cherokee --sysconfdir=/etc/cherokee --localstatedir=/tmp/cherokee --enable-static-module=all --enable-static --enable-shared=no && \
   autoreconf -iv && \
   make && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
@@ -47,7 +45,7 @@ RUN mkdir -p "/usr/local/share/template-files/config/cherokee/defaults" "/buildr
   openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/key.pem -out /etc/ssl/crt.pem && \
   ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
   ln -sf /usr/local/share/cherokee/sbin/* /usr/local/bin/ && \
-  cp -Rf "/usr/local/share/cherokee/etc/." "/usr/local/share/template-files/config/cherokee/defaults/" && \
+  cp -Rf "/etc/cherokee/." "/usr/local/share/template-files/config/defaults/cherokee/" && \
   cp -Rf "/usr/local/." "/buildroot/" && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /tmp/build /usr/src/*
 
