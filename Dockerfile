@@ -1,6 +1,8 @@
 FROM casjaysdevdocker/python2:latest AS build
 
-ARG PORTS="80 443"
+ARG PORTS="80 443 9090"
+
+ENV CFLAGS="-static"
 
 WORKDIR /tmp/build
 
@@ -23,9 +25,10 @@ RUN apk -U upgrade && \
 
 RUN cd /tmp/build && \
   git clone https://github.com/cherokee/webserver.git . && \
-  libtoolize --force && \
-  ./autogen.sh --with-python2=/usr/bin/python2 --prefix=/usr/local/share/cherokee && \
-  ./configure CFLAGS="-static" --prefix=/usr/local/share/cherokee --enable-static-module=all --with-wwwroot=/data/htdocs/www && \
+  /usr/bin/libtoolize && \
+  aclocal && autoheader && touch ./ChangeLog ./README && autoconf && \
+  ./autogen.sh --prefix=/usr/local/share/cherokee --sysconfdir=/usr/local/share/cherokee/etc --localstatedir=/usr/local/share/cherokee/var --enable-static-module=all && \
+  autoreconf -iv && \
   make && make install && \
   echo "<p style='text-align:center'>Built from $(git rev-parse --short HEAD) on $(date)</p>" > ./version.txt && \
   apk del --no-cache \
@@ -38,6 +41,7 @@ RUN cd /tmp/build && \
   ffmpeg-dev \
   geoip-dev \
   libtool && \
+  openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/key.pem -out /etc/ssl/crt.pem && \
   ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
   mkdir -p /buildroot && \
   cp -Rf "/usr/local/." "/buildroot/" && \
