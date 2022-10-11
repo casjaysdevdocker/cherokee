@@ -16,6 +16,7 @@ fi
 [ -d "/config/cherokee" ] && cp -Rf "/config/cherokee/." "/etc/cherokee/" || cp -Rf "/usr/local/share/template-files/config/defaults/cherokee/" "/etc/cherokee/"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "/data/htdocs" ] || mkdir -p "/data/htdocs"
+[ -d "/config/cherokee/themes" ] && cp -Rf "/config/cherokee/themes/." "/usr/local/share/cherokee/share/cherokee/themes/"
 if [ -z "$(ls -A /data/htdocs/www/* 2>/dev/null||echo '')" ]; then
   mkdir -p "/data/htdocs" "/data/htdocs/cgi-bin"
   cp -Rf "/usr/local/share/template-files/data/." "/data/"
