@@ -10,7 +10,10 @@ if [ ! -d "/config/cherokee" ] && [ -d "/usr/local/share/template-files/config/c
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "/data/htdocs" ] || mkdir -p "/data/htdocs"
-[ -d "/data/htdocs/www" ] || cp -Rf "/usr/local/share/template-files/data/." "/data/"
+if [ -n "$(ls -A /data/htdocs/www/* 2>/dev/null||echo '')" ]; then
+  mkdir -p "/data/htdocs" "/data/htdocs/cgi-bin"
+  cp -Rf "/usr/local/share/template-files/data/." "/data/"
+fi
 [ -d "/usr/lib/cgi-bin" ] && [ -d "" ] && cp -Rf "/usr/lib/cgi-bin/." "/data/htdocs/cgi-bin/"
 [ -f "/config/cherokee/cherokee.conf" ] && cp -Rfv "/config/cherokee/cherokee.conf" "/etc/cherokee/"
 [ -d "/usr/local/share/cherokee/icons" ] && [ ! -d "/config/cherokee/icons" ] && cp -Rf "/usr/local/share/cherokee/icons/." "/config/cherokee/icons/"
