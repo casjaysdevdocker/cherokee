@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
-set -x
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Set bash options
+[ -n "$DEBUG" ] && set -x
+set -o pipefail
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export PATH="/usr/local/share/cherokee/bin:$PATH"
 [ -f "/config/ssl.env" ] && . "/config/ssl.env"
