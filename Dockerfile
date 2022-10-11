@@ -1,5 +1,7 @@
 FROM casjaysdevdocker/python2:latest AS build
 
+ARG PORTS="80 443"
+
 WORKDIR /tmp/build
 
 RUN apk -U upgrade && \
@@ -55,9 +57,9 @@ COPY ./config/. /usr/local/share/template-files/config/
 
 ENV PHP_SERVER=cherokee
 
-WORKDIR /data/htdocs
+WORKDIR /data/htdocs/www
 
-EXPOSE 19070 19071
+EXPOSE $PORTS
 
 VOLUME [ "/data", "/config" ]
 

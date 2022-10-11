@@ -16,7 +16,7 @@ fi
 [ -d "/usr/local/share/cherokee/icons" ] && [ ! -d "/config/cherokee/icons" ] && cp -Rf "/usr/local/share/cherokee/icons/." "/config/cherokee/icons/"
 [ -d "/usr/local/share/cherokee/themes" ] && [ ! -d "/config/cherokee/themes" ] && cp -Rf "/usr/local/share/cherokee/themes/." "/config/cherokee/themes/"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-if [ ! -f "/config/ssl/key.pem" ] || [ ! -f "/etc/ssl/crt.pem" ]; then
+if [ ! -f "/config/ssl//localhost.crt" ] || [ ! -f "/config/ssl//localhost.key" ]; then
   create-ssl-cert
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
