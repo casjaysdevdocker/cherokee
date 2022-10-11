@@ -15,8 +15,8 @@ RUN apk -U upgrade && \
   gettext \
   git \
   libtool \
-  openssl3 \
-  openssl3-dev \
+  openssl \
+  openssl-dev \
   linux-headers \
   rrdtool \
   ffmpeg-dev \
@@ -51,7 +51,7 @@ RUN mkdir -p "/usr/local/share/template-files/config/defaults/cherokee" "/buildr
 
 FROM casjaysdevdocker/php:latest AS source
 
-RUN apk add --no-cache geoip rrdtool openssl3 && \
+RUN apk add --no-cache geoip rrdtool openssl && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 COPY --from=build /buildroot/. /usr/local/
