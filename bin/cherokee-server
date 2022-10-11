@@ -27,7 +27,7 @@ if [ ! -f "/config/ssl//localhost.crt" ] || [ ! -f "/config/ssl//localhost.key" 
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ ! -f "/tmp/cherokee.pid" ]; then
-  cherokee-admin -b -p 19070 -c /config/cherokee.conf &
+  cherokee-admin -b -p 9090 -c /etc/cherokee/cherokee.conf &
   exec cherokee -c /etc/cherokee/cherokee.conf || rm -Rf "/tmp/cherokee.pid"
 fi
 
