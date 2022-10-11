@@ -8,6 +8,7 @@ RUN apk -U upgrade && \
   apk add --no-cache \
   alpine-sdk \
   autoconf \
+  musl-dev \
   automake \
   gettext \
   git \
@@ -37,6 +38,7 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   ffmpeg-dev \
   geoip-dev \
   mariadb-dev \
+  musl-dev \
   libtool && \
   mkdir -p /buildroot && \
   cp -Rf "/usr/local/." "/buildroot/" && \
