@@ -39,9 +39,7 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/*
 
 FROM casjaysdevdocker/php:latest AS source
-COPY --from=build /usr/local/bin/. /usr/local/bin/
-COPY --from=build /usr/local/lib/python2/. /usr/local/lib/python2/
-COPY --from=build /usr/local/share/cherokee/. /usr/local/share/cherokee/
+COPY --from=build /usr/local/. /usr/local/
 COPY ./bin/. /usr/local/bin/
 COPY ./data/. /usr/local/share/template-files/data/
 COPY ./config/. /usr/local/share/template-files/config/
