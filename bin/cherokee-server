@@ -30,10 +30,13 @@ if [ ! -f "/config/ssl//localhost.crt" ] || [ ! -f "/config/ssl//localhost.key" 
   create-ssl-cert
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-php-fpm-server
+# Start php-fpm server
+php-fpm-server &
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ ! -f "/tmp/cherokee.pid" ]; then
+  echo "Starting cherokee-admin on port 9090"
   cherokee-admin -b -p 9090 -C /etc/cherokee/cherokee.conf &
+  echo "Starting cherokee webserver on port 80"
   exec cherokee -C /etc/cherokee/cherokee.conf || rm -Rf "/tmp/cherokee.pid"
 fi
 

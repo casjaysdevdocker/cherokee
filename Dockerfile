@@ -1,6 +1,6 @@
 FROM casjaysdevdocker/python2:latest AS build
 
-ARG PORTS="80 443 9090"
+ARG PORTS="80 9090"
 
 ENV CFLAGS="-static"
 
