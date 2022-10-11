@@ -42,7 +42,7 @@ RUN mkdir -p "/usr/local/share/template-files/config/defaults/cherokee" "/buildr
   ffmpeg-dev \
   geoip-dev \
   libtool && \
-  openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/key.pem -out /etc/ssl/crt.pem && \
+  openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=US/ST=CA/L=CA/O=Cherokee/OU=Cherokee/CN=localhost" -keyout /etc/ssl/server.key -out /etc/ssl/server.key && \
   ln -sf /usr/local/share/cherokee/bin/* /usr/local/bin/ && \
   ln -sf /usr/local/share/cherokee/sbin/* /usr/local/bin/ && \
   cp -Rf "/etc/cherokee/." "/usr/local/share/template-files/config/defaults/cherokee/" && \
