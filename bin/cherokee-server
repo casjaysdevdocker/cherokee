@@ -10,7 +10,7 @@ if [ ! -d "/config/cherokee" ] && [ -d "/usr/local/share/template-files/config/c
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "/data/htdocs" ] || mkdir -p "/data/htdocs"
-if [ -n "$(ls -A /data/htdocs/www/* 2>/dev/null||echo '')" ]; then
+if [ -z "$(ls -A /data/htdocs/www/* 2>/dev/null||echo '')" ]; then
   mkdir -p "/data/htdocs" "/data/htdocs/cgi-bin"
   cp -Rf "/usr/local/share/template-files/data/." "/data/"
 fi
