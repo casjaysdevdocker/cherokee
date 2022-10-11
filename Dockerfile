@@ -16,6 +16,8 @@ RUN apk -U upgrade && \
   openssl-dev \
   linux-headers \
   rrdtool \
+  ffmpeg-dev \
+  geoip-dev \
   php8-cgi
 
 RUN git clone https://github.com/cherokee/webserver.git . && \
@@ -29,7 +31,10 @@ RUN git clone https://github.com/cherokee/webserver.git . && \
   autoconf \
   automake \
   gettext \
-  git \
+  openssl-dev \
+  linux-headers \
+  ffmpeg-dev \
+  geoip-dev \
   libtool && \
   rm -Rf /var/cache/apk/* /tmp/* /var/tmp/* /usr/src/*
 
