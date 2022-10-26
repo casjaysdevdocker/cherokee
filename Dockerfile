@@ -6,7 +6,7 @@ ARG DEFAULT_DATA_DIR="/usr/local/share/template-files/data" \
   DEFAULT_CONF_DIR="/usr/local/share/template-files/config" \
   DEFAULT_TEMPLATE_DIR="/usr/local/share/template-files/defaults"
 
-ARG PACK_LIST="bash autoconf musl-dev automake gettext git libtool \
+ARG PACK_LIST="bash alpine-sdk autoconf musl-dev automake gettext git libtool \
   openssl openssl-dev linux-headers rrdtool ffmpeg-dev geoip-dev php8-cgi"
 
 ENV LANG=en_US.utf8 \
