@@ -3,7 +3,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ##@Version           :  202210201649-git
 # @@Author           :  Jason Hempstead
-# @@Contact          :  jason@casjaysdev.com
+# @@Contact          :  jason@casjaysdev.pro
 # @@License          :  LICENSE.md
 # @@ReadME           :  entrypoint.sh --help
 # @@Copyright        :  Copyright: (c) 2022 Jason Hempstead, Casjays Developments
@@ -77,7 +77,7 @@ SERVICE_PORT="${SERVICE_PORT:-}"
 SERVICE_NAME="${CONTAINER_NAME:-}"
 HOSTNAME="${HOSTNAME:-casjaysdev-cherokee}"
 HOSTADMIN="${HOSTADMIN:-root@${DOMAINNAME:-$HOSTNAME}}"
-CERT_BOT_MAIL="${CERT_BOT_MAIL:-certbot-mail@casjay.net}"
+CERT_BOT_MAIL="${CERT_BOT_MAIL:-certbot-mail@casjay.pro}"
 SSL_CERT_BOT="${SSL_CERT_BOT:-false}"
 SSL_ENABLED="${SSL_ENABLED:-false}"
 SSL_DIR="${SSL_DIR:-/config/ssl}"
