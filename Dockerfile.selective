@@ -1,0 +1,83 @@
+# Cherokee Web Server from Zevenet fork - selective copy
+FROM debian:bullseye as builder
+
+# Install build dependencies without SSL
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    autoconf \
+    automake \
+    libtool-bin \
+    libtool \
+    pkg-config \
+    git \
+    gettext \
+    libpcre3-dev \
+    zlib1g-dev \
+    python2 \
+    python2-dev \
+    autotools-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download Cherokee from Zevenet fork and build without SSL
+RUN cd /tmp && \
+    git clone https://github.com/zevenet/cherokee.git && \
+    cd cherokee && \
+    touch README ChangeLog AUTHORS NEWS && \
+    ./autogen.sh && \
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc/cherokee \
+        --localstatedir=/var \
+        --disable-pam \
+        --disable-tls \
+        --without-ssl \
+        --with-wwwroot=/var/www/html && \
+    make && \
+    make install DESTDIR=/tmp/cherokee-install
+
+# Final image
+FROM alpine:latest
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    bash \
+    pcre \
+    pcre-dev \
+    zlib \
+    gettext \
+    libgcc \
+    libstdc++ \
+    && ln -sf /usr/lib/libpcre.so.1 /usr/lib/libpcre.so.3 || true
+
+# Copy Cherokee binaries selectively
+COPY --from=builder /tmp/cherokee-install/usr /usr
+COPY --from=builder /tmp/cherokee-install/etc /etc
+
+# Create directories
+RUN mkdir -p /var/www/html /config /data /var/log/cherokee /var/run && \
+    chmod +x /usr/sbin/cherokee* /usr/bin/cherokee* 2>/dev/null || true
+
+# Create a simple index page
+RUN echo "<h1>Cherokee Web Server</h1><p>Cherokee (Zevenet fork) is running successfully!</p><p>Built from: https://github.com/zevenet/cherokee</p><p><strong>Note:</strong> SSL disabled for compatibility</p>" > /var/www/html/index.html
+
+# Create basic Cherokee config
+RUN mkdir -p /etc/cherokee && \
+    cat > /etc/cherokee/cherokee.conf << 'EOF'
+server!port = 80
+server!server_tokens = off
+
+vserver!1!nick = default
+vserver!1!document_root = /var/www/html
+vserver!1!directory_index = index.html,index.htm
+
+vserver!1!rule!1!match = default
+vserver!1!rule!1!handler = file
+
+mime!application/x-javascript!extensions = js
+mime!text/css!extensions = css
+mime!text/html!extensions = html,htm
+EOF
+
+EXPOSE 80
+
+CMD ["/usr/sbin/cherokee", "-C", "/etc/cherokee/cherokee.conf"]

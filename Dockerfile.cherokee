@@ -1,0 +1,75 @@
+# Cherokee Web Server built from source
+FROM alpine:latest as builder
+
+# Install build dependencies
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    autoconf \
+    automake \
+    libtool \
+    pkgconfig \
+    git \
+    gettext-dev \
+    openssl-dev \
+    pcre-dev \
+    zlib-dev \
+    python2
+
+# Download and build Cherokee
+RUN cd /tmp && \
+    git clone https://github.com/cherokee/webserver.git cherokee && \
+    cd cherokee && \
+    ./autogen.sh && \
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc/cherokee \
+        --localstatedir=/var \
+        --enable-static-module=all \
+        --disable-pam \
+        --with-wwwroot=/var/www/html && \
+    make && \
+    make install DESTDIR=/tmp/cherokee-install
+
+# Final image
+FROM alpine:latest
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    bash \
+    openssl \
+    pcre \
+    zlib \
+    gettext
+
+# Copy Cherokee from builder
+COPY --from=builder /tmp/cherokee-install /
+
+# Create directories
+RUN mkdir -p /var/www/html /config /data /var/log/cherokee
+
+# Create a simple index page
+RUN echo "<h1>Cherokee Web Server</h1><p>Cherokee is running successfully!</p>" > /var/www/html/index.html
+
+# Create basic Cherokee config
+RUN mkdir -p /etc/cherokee && \
+    cat > /etc/cherokee/cherokee.conf << 'EOF'
+server!port = 80
+server!ipv6 = 0
+server!server_tokens = off
+
+vserver!1!nick = default
+vserver!1!document_root = /var/www/html
+vserver!1!directory_index = index.html,index.htm
+
+vserver!1!rule!1!match = default
+vserver!1!rule!1!handler = file
+
+mime!application/x-javascript!extensions = js
+mime!text/css!extensions = css
+mime!text/html!extensions = html,htm
+EOF
+
+EXPOSE 80
+
+CMD ["/usr/sbin/cherokee", "-C", "/etc/cherokee/cherokee.conf"]
