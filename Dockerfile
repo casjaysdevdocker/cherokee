@@ -1,7 +1,7 @@
 # Docker image for cherokee using the alpine template
 ARG IMAGE_NAME="cherokee"
 ARG PHP_SERVER="cherokee"
-ARG BUILD_DATE="202509052348"
+ARG BUILD_DATE="202509161146"
 ARG LANGUAGE="en_US.UTF-8"
 ARG TIMEZONE="America/New_York"
 ARG WWW_ROOT_DIR="/usr/local/share/httpd/default"
@@ -20,7 +20,7 @@ ARG PHP_VERSION="system"
 ARG NODE_VERSION="system"
 ARG NODE_MANAGER="system"
 
-ARG IMAGE_REPO="casjaysdevdocker/cherokee_temp"
+ARG IMAGE_REPO="casjaysdevdocker/cherokee"
 ARG IMAGE_VERSION="latest"
 ARG CONTAINER_VERSION=""
 
@@ -54,7 +54,7 @@ ARG PHP_SERVER
 ARG SHELL_OPTS
 ARG PATH
 
-ARG PACK_LIST="cherokee cherokee-admin"
+ARG PACK_LIST=" "
 
 ENV ENV=~/.profile
 ENV SHELL="/bin/sh"
@@ -219,8 +219,8 @@ LABEL org.opencontainers.image.authors="${LICENSE}"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.version="${BUILD_VERSION}"
 LABEL org.opencontainers.image.schema-version="${BUILD_VERSION}"
-LABEL org.opencontainers.image.url="https://hub.docker.com/r/casjaysdevdocker/cherokee"
-LABEL org.opencontainers.image.source="https://hub.docker.com/r/casjaysdevdocker/cherokee"
+LABEL org.opencontainers.image.url="docker.io"
+LABEL org.opencontainers.image.source="docker.io"
 LABEL org.opencontainers.image.vcs-type="Git"
 LABEL org.opencontainers.image.revision="${BUILD_VERSION}"
 LABEL org.opencontainers.image.source="https://github.com/casjaysdevdocker/cherokee"

@@ -1,9 +1,9 @@
-name: cherokee_temp
+name: cherokee
 
 on: push
 
 jobs:
-  release-cherokee_temp:
+  release-cherokee:
     runs-on: act_runner
     container:
       image: catthehacker/ubuntu:act-latest
