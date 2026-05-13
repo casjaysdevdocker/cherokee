@@ -19,8 +19,8 @@ dockermgr update cherokee
 ## Install and run container
   
 ```shell
-dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/volumes"
-mkdir -p "/var/lib/srv/$USER/docker/cherokee/volumes"
+dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/rootfs"
+mkdir -p "/var/lib/srv/$USER/docker/cherokee/rootfs"
 git clone "https://github.com/dockermgr/cherokee" "$HOME/.local/share/CasjaysDev/dockermgr/cherokee"
 cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/cherokee/rootfs/." "$dockerHome/"
 docker run -d \
@@ -47,8 +47,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=cherokee
     volumes:
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/volumes/data:/data:z"
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/volumes/config:/config:z"
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/rootfs/data:/data:z"
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/cherokee/cherokee/latest/rootfs/config:/config:z"
     ports:
       - 80:80
     restart: always
